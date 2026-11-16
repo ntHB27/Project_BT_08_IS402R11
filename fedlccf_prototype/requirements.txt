@@ -1,0 +1,32 @@
+# ==============================================================================
+# Fed-LCCF Minimal Pinned Dependencies
+# Verified against Python 3.12 (Debian 12 Bookworm) & Python 3.14 (.venv)
+# ==============================================================================
+
+# --- Core Cloud Server & ASGI Runtime ---
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.1
+starlette==1.10.0
+
+# --- Scientific Computing & Matrix Operations ---
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.6
+
+# --- Graph Algorithms & Community Detection ---
+igraph==1.0.0
+leidenalg==0.12.0
+
+# --- Client Agent & HTTP Networking ---
+requests==2.34.2
+
+# --- Orchestration & Process Tree Management (Milestone 4) ---
+psutil==7.2.2
+
+# --- Evaluation & Benchmarking (Milestone 6) ---
+scikit-learn==1.9.1
+matplotlib==3.11.2
+
+# --- Automated Testing & Integration Harness ---
+httpx==0.28.1
