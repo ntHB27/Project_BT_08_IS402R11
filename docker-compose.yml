@@ -1,0 +1,159 @@
+# ==============================================================================
+# Fed-LCCF Container Orchestration Specification
+# Supports:
+#   1. Server-only execution (Azure VM / Remote clients):
+#      docker compose up -d server
+#   2. Full 5-node federated simulation (Server + 4 Clients):
+#      docker compose --profile full up --build
+# ==============================================================================
+
+services:
+  # ----------------------------------------------------------------------------
+  # Central FastAPI Aggregation Server
+  # ----------------------------------------------------------------------------
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fedlccf:latest
+    container_name: fedlccf-server
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - EXPECTED_CLIENTS=4
+      - TOTAL_ROUNDS=20
+      - GAMMA=10.0
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/fedlccf_prototype/data:rw
+      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - fedlccf-net
+
+  # ----------------------------------------------------------------------------
+  # Federated Client 1 (45% Partition — 36,000 ratings)
+  # ----------------------------------------------------------------------------
+  client-1:
+    image: fedlccf:latest
+    container_name: fedlccf-client-1
+    profiles: ["clients", "full"]
+    depends_on:
+      server:
+        condition: service_healthy
+    command: >
+      python -m fedlccf_prototype.client_ml.client_agent
+      --client_id 1
+      --db_path /app/fedlccf_prototype/data/client_1.db
+      --server_url http://server:8000
+      --rounds 20
+      --epochs_per_round 5
+      --lr 0.01
+      --latent_dim 32
+      --seed 42
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/fedlccf_prototype/data:rw
+      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+    networks:
+      - fedlccf-net
+
+  # ----------------------------------------------------------------------------
+  # Federated Client 2 (30% Partition — 24,000 ratings)
+  # ----------------------------------------------------------------------------
+  client-2:
+    image: fedlccf:latest
+    container_name: fedlccf-client-2
+    profiles: ["clients", "full"]
+    depends_on:
+      server:
+        condition: service_healthy
+    command: >
+      python -m fedlccf_prototype.client_ml.client_agent
+      --client_id 2
+      --db_path /app/fedlccf_prototype/data/client_2.db
+      --server_url http://server:8000
+      --rounds 20
+      --epochs_per_round 5
+      --lr 0.01
+      --latent_dim 32
+      --seed 42
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/fedlccf_prototype/data:rw
+      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+    networks:
+      - fedlccf-net
+
+  # ----------------------------------------------------------------------------
+  # Federated Client 3 (18% Partition — 14,400 ratings)
+  # ----------------------------------------------------------------------------
+  client-3:
+    image: fedlccf:latest
+    container_name: fedlccf-client-3
+    profiles: ["clients", "full"]
+    depends_on:
+      server:
+        condition: service_healthy
+    command: >
+      python -m fedlccf_prototype.client_ml.client_agent
+      --client_id 3
+      --db_path /app/fedlccf_prototype/data/client_3.db
+      --server_url http://server:8000
+      --rounds 20
+      --epochs_per_round 5
+      --lr 0.01
+      --latent_dim 32
+      --seed 42
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/fedlccf_prototype/data:rw
+      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+    networks:
+      - fedlccf-net
+
+  # ----------------------------------------------------------------------------
+  # Federated Client 4 (7% Partition — 5,600 ratings, ~50% cold-start missing)
+  # ----------------------------------------------------------------------------
+  client-4:
+    image: fedlccf:latest
+    container_name: fedlccf-client-4
+    profiles: ["clients", "full"]
+    depends_on:
+      server:
+        condition: service_healthy
+    command: >
+      python -m fedlccf_prototype.client_ml.client_agent
+      --client_id 4
+      --db_path /app/fedlccf_prototype/data/client_4.db
+      --server_url http://server:8000
+      --rounds 20
+      --epochs_per_round 5
+      --lr 0.01
+      --latent_dim 32
+      --seed 42
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/fedlccf_prototype/data:rw
+      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+    networks:
+      - fedlccf-net
+
+# ------------------------------------------------------------------------------
+# Bridge Network for Internal Container Communication
+# ------------------------------------------------------------------------------
+networks:
+  fedlccf-net:
+    driver: bridge
