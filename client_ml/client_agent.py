@@ -35,14 +35,14 @@ if str(_WORKSPACE_ROOT) not in sys.path:
 
 import numpy as np
 
-from fedlccf_prototype.client_ml.local_mf import (
+from client_ml.local_mf import (
     DEFAULT_LATENT_DIM,
     DEFAULT_LEARNING_RATE,
     DEFAULT_NUM_ITEMS,
     DEFAULT_NUM_USERS,
     MatrixFactorization,
 )
-from fedlccf_prototype.data.client_data_loader import ClientDataLoader
+from data.client_data_loader import ClientDataLoader
 
 # Optional requests import with urllib fallback
 try:

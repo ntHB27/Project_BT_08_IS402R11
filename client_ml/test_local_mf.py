@@ -27,15 +27,15 @@ if str(_WORKSPACE_ROOT) not in sys.path:
 
 import numpy as np
 
-from fedlccf_prototype.client_ml.client_agent import FederatedClientAgent
-from fedlccf_prototype.client_ml.local_mf import (
+from client_ml.client_agent import FederatedClientAgent
+from client_ml.local_mf import (
     ADAPTIVE_LAMBDA_MAP,
     DEFAULT_LATENT_DIM,
     DEFAULT_NUM_ITEMS,
     DEFAULT_NUM_USERS,
     MatrixFactorization,
 )
-from fedlccf_prototype.data.client_data_loader import ClientDataLoader
+from data.client_data_loader import ClientDataLoader
 
 
 class TestLocalMatrixFactorization(unittest.TestCase):

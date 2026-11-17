@@ -6,7 +6,7 @@ regularization, user privacy enforcement, and Cold-Start handling
 (Phase 1 observed mean initialization and Phase 3 Leiden centroid anchoring).
 """
 
-from fedlccf_prototype.client_ml.local_mf import (
+from client_ml.local_mf import (
     DEFAULT_LATENT_DIM,
     DEFAULT_LEARNING_RATE,
     DEFAULT_NUM_ITEMS,
@@ -15,7 +15,7 @@ from fedlccf_prototype.client_ml.local_mf import (
     ADAPTIVE_LAMBDA_MAP,
     MatrixFactorization,
 )
-from fedlccf_prototype.client_ml.client_agent import (
+from client_ml.client_agent import (
     FederatedClientAgent,
 )
 
