@@ -32,7 +32,7 @@ class Evaluator:
     Parameters
     ----------
     test_db_path : Optional[Union[str, Path]]
-        Path to test.db SQLite database. If None, resolves to fedlccf_prototype/data/test.db.
+        Path to test.db SQLite database. If None, resolves to data/test.db.
     data_dir : Optional[Union[str, Path]]
         Path to data/ directory containing client_1.db .. client_4.db.
         If None, inferred from test_db_path parent.

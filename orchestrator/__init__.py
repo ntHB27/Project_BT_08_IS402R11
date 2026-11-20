@@ -19,6 +19,6 @@ __all__ = [
 def __getattr__(name: str) -> Any:
     """Lazy export to prevent runpy RuntimeWarning on python -m execution."""
     if name in __all__:
-        from fedlccf_prototype.orchestrator import run_simulation
+        from orchestrator import run_simulation
         return getattr(run_simulation, name)
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

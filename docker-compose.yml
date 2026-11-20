@@ -28,8 +28,8 @@ services:
       - GAMMA=10.0
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./data:/app/fedlccf_prototype/data:rw
-      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+      - ./data:/app/data:rw
+      - ./orchestrator/logs:/app/orchestrator/logs:rw
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
       interval: 5s
@@ -50,9 +50,9 @@ services:
       server:
         condition: service_healthy
     command: >
-      python -m fedlccf_prototype.client_ml.client_agent
+      python -m client_ml.client_agent
       --client_id 1
-      --db_path /app/fedlccf_prototype/data/client_1.db
+      --db_path /app/data/client_1.db
       --server_url http://server:8000
       --rounds 20
       --epochs_per_round 5
@@ -62,8 +62,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./data:/app/fedlccf_prototype/data:rw
-      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+      - ./data:/app/data:rw
+      - ./orchestrator/logs:/app/orchestrator/logs:rw
     networks:
       - fedlccf-net
 
@@ -78,9 +78,9 @@ services:
       server:
         condition: service_healthy
     command: >
-      python -m fedlccf_prototype.client_ml.client_agent
+      python -m client_ml.client_agent
       --client_id 2
-      --db_path /app/fedlccf_prototype/data/client_2.db
+      --db_path /app/data/client_2.db
       --server_url http://server:8000
       --rounds 20
       --epochs_per_round 5
@@ -90,8 +90,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./data:/app/fedlccf_prototype/data:rw
-      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+      - ./data:/app/data:rw
+      - ./orchestrator/logs:/app/orchestrator/logs:rw
     networks:
       - fedlccf-net
 
@@ -106,9 +106,9 @@ services:
       server:
         condition: service_healthy
     command: >
-      python -m fedlccf_prototype.client_ml.client_agent
+      python -m client_ml.client_agent
       --client_id 3
-      --db_path /app/fedlccf_prototype/data/client_3.db
+      --db_path /app/data/client_3.db
       --server_url http://server:8000
       --rounds 20
       --epochs_per_round 5
@@ -118,8 +118,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./data:/app/fedlccf_prototype/data:rw
-      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+      - ./data:/app/data:rw
+      - ./orchestrator/logs:/app/orchestrator/logs:rw
     networks:
       - fedlccf-net
 
@@ -134,9 +134,9 @@ services:
       server:
         condition: service_healthy
     command: >
-      python -m fedlccf_prototype.client_ml.client_agent
+      python -m client_ml.client_agent
       --client_id 4
-      --db_path /app/fedlccf_prototype/data/client_4.db
+      --db_path /app/data/client_4.db
       --server_url http://server:8000
       --rounds 20
       --epochs_per_round 5
@@ -146,8 +146,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./data:/app/fedlccf_prototype/data:rw
-      - ./orchestrator/logs:/app/fedlccf_prototype/orchestrator/logs:rw
+      - ./data:/app/data:rw
+      - ./orchestrator/logs:/app/orchestrator/logs:rw
     networks:
       - fedlccf-net
 

@@ -24,7 +24,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
-from fedlccf_prototype.cloud_server.leiden_engine import (
+from cloud_server.leiden_engine import (
     DEFAULT_K_NEIGHBORS,
     DEFAULT_LATENT_DIM,
     DEFAULT_NUM_ITEMS,

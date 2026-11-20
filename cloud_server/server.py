@@ -28,14 +28,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field, model_validator
 
-from fedlccf_prototype.cloud_server.aggregator import (
+from cloud_server.aggregator import (
     DEFAULT_GAMMA,
     DEFAULT_LATENT_DIM,
     DEFAULT_NUM_ITEMS,
     DEFAULT_RANDOM_SEED,
     FederatedAggregator,
 )
-from fedlccf_prototype.cloud_server.barrier import (
+from cloud_server.barrier import (
     DEFAULT_EXPECTED_CLIENTS,
     RoundBarrierManager,
 )
@@ -387,15 +387,15 @@ def main() -> None:
 
     global app
     app = create_app(expected_clients=args.clients, gamma=args.gamma)
-    if "fedlccf_prototype.cloud_server.server" in sys.modules:
-        sys.modules["fedlccf_prototype.cloud_server.server"].app = app
+    if "cloud_server.server" in sys.modules:
+        sys.modules["cloud_server.server"].app = app
 
     # Allow custom environment port override
     port = int(os.environ.get("PORT", args.port))
     host = os.environ.get("HOST", args.host)
 
     uvicorn.run(
-        "fedlccf_prototype.cloud_server.server:app" if args.reload else app,
+        "cloud_server.server:app" if args.reload else app,
         host=host,
         port=port,
         reload=args.reload,

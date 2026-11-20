@@ -195,7 +195,7 @@ source .venv/bin/activate
 
 # Nâng cấp pip và cài đặt phụ thuộc
 pip install --upgrade pip
-pip install -r fedlccf_prototype/requirements.txt
+pip install -r requirements.txt
 ```
 
 ---
@@ -229,7 +229,7 @@ Environment="HOST=0.0.0.0"
 Environment="PORT=8000"
 Environment="EXPECTED_CLIENTS=4"
 Environment="GAMMA=10.0"
-ExecStart=/home/azureuser/FedLCCF/.venv/bin/python -m fedlccf_prototype.cloud_server.server --host 0.0.0.0 --port 8000 --clients 4 --gamma 10.0
+ExecStart=/home/azureuser/FedLCCF/.venv/bin/python -m cloud_server.server --host 0.0.0.0 --port 8000 --clients 4 --gamma 10.0
 Restart=on-failure
 RestartSec=5s
 LimitNOFILE=65536
@@ -292,18 +292,18 @@ Khi máy chủ trung tâm đã chạy trên Azure, 4 client trên các máy tín
 Mỗi máy trạm client cần có mã nguồn `fedlccf_prototype` và tập dữ liệu SQLite tương ứng.
 Nếu chưa có, chạy lệnh tiền xử lý trên máy trạm:
 ```bash
-python fedlccf_prototype/data/preprocess_data.py
+python data/preprocess_data.py
 ```
-Lệnh này sẽ tạo ra các tệp `client_1.db` đến `client_4.db` trong thư mục `fedlccf_prototype/data/`.
+Lệnh này sẽ tạo ra các tệp `client_1.db` đến `client_4.db` trong thư mục `data/`.
 
 ### 6.2. Lệnh kết nối từng Client Agent
 Mỗi thành viên trong nhóm mở terminal trên máy tính của mình và kích hoạt môi trường ảo `.venv`, sau đó chạy lệnh tương ứng với Client ID được phân công:
 
 #### Client 1 (Máy trạm 1 - Nắm giữ 45% dữ liệu):
 ```bash
-python -m fedlccf_prototype.client_ml.client_agent \
+python -m client_ml.client_agent \
   --client-id 1 \
-  --db-path fedlccf_prototype/data/client_1.db \
+  --db-path data/client_1.db \
   --server-url http://<AZURE_VM_PUBLIC_IP>:8000 \
   --rounds 20 \
   --epochs-per-round 5 \
@@ -313,9 +313,9 @@ python -m fedlccf_prototype.client_ml.client_agent \
 
 #### Client 2 (Máy trạm 2 - Nắm giữ 30% dữ liệu):
 ```bash
-python -m fedlccf_prototype.client_ml.client_agent \
+python -m client_ml.client_agent \
   --client-id 2 \
-  --db-path fedlccf_prototype/data/client_2.db \
+  --db-path data/client_2.db \
   --server-url http://<AZURE_VM_PUBLIC_IP>:8000 \
   --rounds 20 \
   --epochs-per-round 5 \
@@ -325,9 +325,9 @@ python -m fedlccf_prototype.client_ml.client_agent \
 
 #### Client 3 (Máy trạm 3 - Nắm giữ 18% dữ liệu):
 ```bash
-python -m fedlccf_prototype.client_ml.client_agent \
+python -m client_ml.client_agent \
   --client-id 3 \
-  --db-path fedlccf_prototype/data/client_3.db \
+  --db-path data/client_3.db \
   --server-url http://<AZURE_VM_PUBLIC_IP>:8000 \
   --rounds 20 \
   --epochs-per-round 5 \
@@ -337,9 +337,9 @@ python -m fedlccf_prototype.client_ml.client_agent \
 
 #### Client 4 (Máy trạm 4 - Nắm giữ 7% dữ liệu, Cold-Start thưa thớt):
 ```bash
-python -m fedlccf_prototype.client_ml.client_agent \
+python -m client_ml.client_agent \
   --client-id 4 \
-  --db-path fedlccf_prototype/data/client_4.db \
+  --db-path data/client_4.db \
   --server-url http://<AZURE_VM_PUBLIC_IP>:8000 \
   --rounds 20 \
   --epochs-per-round 5 \
@@ -351,7 +351,7 @@ python -m fedlccf_prototype.client_ml.client_agent \
 Nếu một thành viên muốn kiểm thử toàn bộ 4 clients kết nối đồng thời lên máy chủ Azure từ máy cá nhân của mình, sử dụng chế độ `clients-only`:
 
 ```bash
-python -m fedlccf_prototype.orchestrator.run_simulation \
+python -m orchestrator.run_simulation \
   --mode clients-only \
   --server-url http://<AZURE_VM_PUBLIC_IP>:8000 \
   --rounds 20 \

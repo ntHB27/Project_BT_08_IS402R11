@@ -107,7 +107,7 @@ Cài đặt toàn bộ danh mục thư viện được ghim phiên bản chuẩn
 
 ```bash
 python -m pip install --upgrade pip
-pip install -r fedlccf_prototype/requirements.txt
+pip install -r requirements.txt
 ```
 
 Các thư viện chính bao gồm:
@@ -127,12 +127,12 @@ Hệ thống sử dụng tập dữ liệu chuẩn **MovieLens 100K** gồm 100,
 Chạy module tiền xử lý dữ liệu từ thư mục gốc của repository:
 
 ```bash
-python fedlccf_prototype/data/preprocess_data.py
+python data/preprocess_data.py
 ```
 
 Nếu tập dữ liệu thô `ml-100k` nằm ở thư mục tùy chỉnh, bạn có thể truyền cờ chỉ định:
 ```bash
-python fedlccf_prototype/data/preprocess_data.py --raw-data-dir ./ml-100k --output-dir ./fedlccf_prototype/data --seed 42
+python data/preprocess_data.py --raw-data-dir ./ml-100k --output-dir ./data --seed 42
 ```
 
 ### 4.2. Giải thích cơ chế phân hoạch dữ liệu
@@ -166,14 +166,14 @@ Bộ điều phối `run_simulation.py` tự động hóa toàn bộ vòng đờ
 Để kiểm tra tính thông suốt của đường truyền dữ liệu và rào cản đồng bộ trong vòng chưa đầy 1 phút:
 
 ```bash
-python -m fedlccf_prototype.orchestrator.run_simulation --rounds 5 --clients 4
+python -m orchestrator.run_simulation --rounds 5 --clients 4
 ```
 
 ### 5.2. Chạy thử nghiệm đầy đủ (Full 20 Rounds)
 Chạy đầy đủ cả 3 giai đoạn của thuật toán Fed-LCCF:
 
 ```bash
-python -m fedlccf_prototype.orchestrator.run_simulation --rounds 20 --clients 4
+python -m orchestrator.run_simulation --rounds 20 --clients 4
 ```
 
 ### 5.3. Bảng giải thích chi tiết các tham số CLI
@@ -203,7 +203,7 @@ Docker Compose cho phép cô lập hoàn toàn môi trường chạy vào các c
 Đảm bảo biểu tượng cá voi Docker Desktop trên thanh tác vụ hiển thị trạng thái màu xanh lá cây (**Engine running**).
 
 ### 6.2. Xây dựng Docker Image
-Tại thư mục `fedlccf_prototype/` (nơi chứa file `docker-compose.yml`):
+Tại thư mục `` (nơi chứa file `docker-compose.yml`):
 
 ```bash
 cd fedlccf_prototype
@@ -241,7 +241,7 @@ docker compose logs -f server
 
 Sau đó, bạn có thể chạy các client trên máy chủ vật lý bằng lệnh:
 ```bash
-python -m fedlccf_prototype.client_ml.client_agent --client-id 1 --db-path fedlccf_prototype/data/client_1.db --server-url http://127.0.0.1:8000 --rounds 5
+python -m client_ml.client_agent --client-id 1 --db-path data/client_1.db --server-url http://127.0.0.1:8000 --rounds 5
 ```
 
 ### 6.5. Dừng và dọn dẹp Containers
@@ -257,7 +257,7 @@ docker compose --profile full down
 
 ### 7.1. Cấu trúc thư mục Logs
 Tất cả các tệp nhật ký thực thi được ghi nhận tự động vào thư mục:
-`fedlccf_prototype/orchestrator/logs/`
+`orchestrator/logs/`
 
 - `orchestrator.log`: Tiến trình điều phối tổng thể, thời gian chờ khởi động server, tiến độ rào cản barrier từng vòng, thời gian hoàn thành.
 - `server.log`: Toàn bộ các yêu cầu HTTP API của FastAPI, chi tiết quá trình tổng hợp trọng số, quá trình gom cụm Leiden sau Round 5 (số lượng cụm phát hiện, độ đo modularity, ma trận khoảng cách cosine).
@@ -270,7 +270,7 @@ Get-Content -Path .\fedlccf_prototype\orchestrator\logs\server.log -Wait -Tail 3
 
 Xem log trên Linux / macOS:
 ```bash
-tail -f fedlccf_prototype/orchestrator/logs/server.log
+tail -f orchestrator/logs/server.log
 ```
 
 ### 7.2. Thăm dò trạng thái trực tiếp qua REST API (curl)
@@ -327,7 +327,7 @@ curl -s http://127.0.0.1:8000/api/v1/fl/get_global_factors/1 | head -c 200
 - **Cách 1: Đổi cổng chạy linh hoạt**:
   Truyền tham số `--port` sang cổng khác (Ví dụ 8080):
   ```bash
-  python -m fedlccf_prototype.orchestrator.run_simulation --rounds 5 --port 8080
+  python -m orchestrator.run_simulation --rounds 5 --port 8080
   ```
 - **Cách 2: Tìm và tắt tiến trình đang chiếm cổng trên Windows**:
   ```powershell
@@ -393,6 +393,6 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 **Khắc phục**:
 Đảm bảo bạn đã thực hiện **Bước 1** tiền xử lý dữ liệu trước khi chạy mô phỏng:
 ```bash
-python fedlccf_prototype/data/preprocess_data.py
+python data/preprocess_data.py
 ```
-Kiểm tra thư mục `fedlccf_prototype/data/` đảm bảo tồn tại đủ 4 tệp `client_1.db` đến `client_4.db` và `test.db`.
+Kiểm tra thư mục `data/` đảm bảo tồn tại đủ 4 tệp `client_1.db` đến `client_4.db` và `test.db`.

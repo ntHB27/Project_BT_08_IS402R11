@@ -49,7 +49,7 @@ Hệ thống **Fed-LCCF** mô phỏng bài toán gợi ý phim phân tán cho ch
 
 ```
 FedLCCF/
-├── fedlccf_prototype/
+├── 
 │   ├── data/                   # [Dev 1] Pipeline tiền xử lý và 4 database SQLite
 │   │   ├── preprocess_data.py   # Phân chia 80/20 và phân mảnh ngang Non-IID
 │   │   └── client_data_loader.py# Data Access Layer nạp ma trận thưa CSR
@@ -99,10 +99,10 @@ FedLCCF/
 cd FedLCCF
 
 # Kích hoạt môi trường ảo và chạy thử nghiệm 5 rounds
-.\.venv\Scripts\python.exe -m fedlccf_prototype.orchestrator.run_simulation --rounds 5 --port 8000 --clean-logs
+.\.venv\Scripts\python.exe -m orchestrator.run_simulation --rounds 5 --port 8000 --clean-logs
 
 # Hoặc chạy đầy đủ 20 rounds
-.\.venv\Scripts\python.exe -m fedlccf_prototype.orchestrator.run_simulation --rounds 20 --port 8000 --clean-logs
+.\.venv\Scripts\python.exe -m orchestrator.run_simulation --rounds 20 --port 8000 --clean-logs
 ```
 
 ### Cách 2: Chạy bằng Docker Desktop
@@ -114,4 +114,4 @@ docker compose --profile full up --build
 
 ### Cách 3: Triển khai Central Server lên Azure VM
 
-Xem hướng dẫn chi tiết từng bước tại: `fedlccf_prototype/docs/azure_vm_deployment.md`.
+Xem hướng dẫn chi tiết từng bước tại: `docs/azure_vm_deployment.md`.

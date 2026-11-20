@@ -18,8 +18,8 @@ Executes and evaluates the 3 experimental scenarios across 20 communication roun
      dynamic centroid updating, and on-device centroid anchoring.
 
 Outputs:
-- fedlccf_prototype/benchmark_results.csv: exactly 60 data rows (3 scenarios x 20 rounds).
-- fedlccf_prototype/convergence_plot.png: high-resolution 300 DPI publication figure.
+- benchmark_results.csv: exactly 60 data rows (3 scenarios x 20 rounds).
+- convergence_plot.png: high-resolution 300 DPI publication figure.
 """
 
 import argparse
@@ -43,19 +43,19 @@ _WORKSPACE_ROOT = _PROTOTYPE_DIR.parent
 if str(_WORKSPACE_ROOT) not in sys.path:
     sys.path.insert(0, str(_WORKSPACE_ROOT))
 
-from fedlccf_prototype.client_ml.local_mf import (
+from client_ml.local_mf import (
     DEFAULT_LATENT_DIM,
     DEFAULT_LEARNING_RATE,
     DEFAULT_NUM_ITEMS,
     DEFAULT_NUM_USERS,
     MatrixFactorization,
 )
-from fedlccf_prototype.cloud_server.aggregator import (
+from cloud_server.aggregator import (
     DEFAULT_GAMMA,
     FederatedAggregator,
 )
-from fedlccf_prototype.data.client_data_loader import ClientDataLoader
-from fedlccf_prototype.orchestrator.evaluator import Evaluator
+from data.client_data_loader import ClientDataLoader
+from orchestrator.evaluator import Evaluator
 
 logger = logging.getLogger("fedlccf.benchmark")
 
@@ -598,7 +598,7 @@ class BenchmarkRunner:
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     """Parse CLI arguments for benchmark."""
     parser = argparse.ArgumentParser(
-        prog="python -m fedlccf_prototype.orchestrator.benchmark",
+        prog="python -m orchestrator.benchmark",
         description="Fed-LCCF Comparative Benchmark & Convergence Plotter",
     )
     parser.add_argument("--rounds", type=int, default=DEFAULT_ROUNDS, help="Number of rounds (default: 20)")
@@ -608,8 +608,8 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--gamma", type=float, default=DEFAULT_GAMMA, help="Phase 3 shrinkage gamma (default: 10.0)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
     parser.add_argument("--data-dir", type=str, default=None, help="Directory containing client SQLite databases")
-    parser.add_argument("--output-csv", type=str, default=None, help="Output CSV path (default: fedlccf_prototype/benchmark_results.csv)")
-    parser.add_argument("--output-plot", type=str, default=None, help="Output PNG plot path (default: fedlccf_prototype/convergence_plot.png)")
+    parser.add_argument("--output-csv", type=str, default=None, help="Output CSV path (default: benchmark_results.csv)")
+    parser.add_argument("--output-plot", type=str, default=None, help="Output PNG plot path (default: convergence_plot.png)")
     parser.add_argument("--skip-plot", action="store_true", help="Skip generating the PNG plot")
     parser.add_argument("--plot-only", action="store_true", help="Re-generate plot from existing CSV without re-running training")
     return parser.parse_args(argv)

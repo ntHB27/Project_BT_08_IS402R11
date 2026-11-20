@@ -30,7 +30,7 @@ if _WORKSPACE_ROOT not in sys.path:
 
 from fastapi.testclient import TestClient
 
-from fedlccf_prototype.cloud_server.aggregator import (
+from cloud_server.aggregator import (
     DEFAULT_GAMMA,
     DEFAULT_LATENT_DIM,
     DEFAULT_NUM_ITEMS,
@@ -39,15 +39,15 @@ from fedlccf_prototype.cloud_server.aggregator import (
     PHASE_SHRINKAGE,
     PHASE_WARMUP,
 )
-from fedlccf_prototype.cloud_server.barrier import (
+from cloud_server.barrier import (
     DEFAULT_EXPECTED_CLIENTS,
     RoundBarrierManager,
 )
-from fedlccf_prototype.cloud_server.leiden_engine import (
+from cloud_server.leiden_engine import (
     DEFAULT_K_NEIGHBORS,
     LeidenClusteringEngine,
 )
-from fedlccf_prototype.cloud_server.server import create_app
+from cloud_server.server import create_app
 
 
 class TestCloudServerSuite(unittest.TestCase):

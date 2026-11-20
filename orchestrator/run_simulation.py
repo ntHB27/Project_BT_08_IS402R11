@@ -225,7 +225,7 @@ class LocalSimulationOrchestrator:
                 if not db_path.exists():
                     raise FileNotFoundError(
                         f"Database for client {cid} missing at {db_path}. "
-                        "Run 'python fedlccf_prototype/data/preprocess_data.py' first."
+                        "Run 'python data/preprocess_data.py' first."
                     )
 
         self.log_dir.mkdir(parents=True, exist_ok=True)
@@ -595,7 +595,7 @@ class LocalSimulationOrchestrator:
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     """Parse CLI arguments for run_simulation."""
     parser = argparse.ArgumentParser(
-        prog="python -m fedlccf_prototype.orchestrator.run_simulation",
+        prog="python -m orchestrator.run_simulation",
         description="Fed-LCCF Local Multi-Process Simulation Orchestrator",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )

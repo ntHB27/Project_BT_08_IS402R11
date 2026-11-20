@@ -29,14 +29,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Pre-install dependencies to leverage Docker layer caching
-COPY requirements.txt /app/fedlccf_prototype/requirements.txt
-RUN pip install --no-cache-dir -r /app/fedlccf_prototype/requirements.txt
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Copy complete Fed-LCCF prototype codebase
-COPY . /app/fedlccf_prototype/
+COPY . /app/
 
 # Ensure runtime directories exist
-RUN mkdir -p /app/fedlccf_prototype/orchestrator/logs /app/fedlccf_prototype/data
+RUN mkdir -p /app/orchestrator/logs /app/data
 
 EXPOSE 8000
 
@@ -45,4 +45,4 @@ HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=5 \
     CMD curl -f http://localhost:8000/health || exit 1
 
 # Default execution entrypoint: Cloud Aggregation Server
-CMD ["python", "-m", "fedlccf_prototype.cloud_server.server", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "cloud_server.server", "--host", "0.0.0.0", "--port", "8000"]
